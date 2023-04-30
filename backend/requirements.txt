@@ -1,0 +1,6 @@
+Flask==2.3.1
+Flask-Cors==3.0.10
+werkzeug==2.3.2
+langchain==v0.0.142
+llama-index==v0.5.27
+pdfminer.six==20221105
