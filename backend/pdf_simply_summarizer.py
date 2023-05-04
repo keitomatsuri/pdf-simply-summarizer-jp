@@ -50,13 +50,15 @@ class PdfSimplySummarizer():
     def __init__(self, llm: ChatOpenAI):
         self.llm = llm
 
-    def _summarize(self, file_path: str) -> str:
+    def _load_documents(self, file_path: str) -> list:
         CJKPDFReader = download_loader("CJKPDFReader")
         loader = CJKPDFReader(concat_pages=False)
 
         documents = loader.load_data(file=file_path)
         langchain_documents = [d.to_langchain_format() for d in documents]
+        return langchain_documents
 
+    def _summarize(self, langchain_documents: list) -> str:
         summarize_template = PromptTemplate(
             template=summarize_prompt_template, input_variables=["text"])
 
@@ -97,6 +99,7 @@ class PdfSimplySummarizer():
         return result.content
 
     def run(self, file_path: str):
-        summary = self._summarize(file_path)
+        langchain_documents = self._load_documents(file_path)
+        summary = self._summarize(langchain_documents)
         result = self._simplify(summary)
         return result

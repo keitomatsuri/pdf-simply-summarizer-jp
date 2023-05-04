@@ -63,7 +63,6 @@ def simply_summarize_pdf():
         finally:
             os.remove(file_path)
 
-        print(result)
         return jsonify({'status': 'success', 'message': result}), 200
 
     else:
